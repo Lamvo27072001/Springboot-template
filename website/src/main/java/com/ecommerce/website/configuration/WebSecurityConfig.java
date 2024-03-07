@@ -1,4 +1,4 @@
-package com.ecommerce.configuration;
+package com.ecommerce.website.configuration;
 
 import java.beans.Customizer;
 
@@ -20,7 +20,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ecommerce.filters.JwtRequestFilter;
+import com.ecommerce.website.filters.JwtRequestFilter;
 
 import jakarta.servlet.Filter;
 
