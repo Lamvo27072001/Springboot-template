@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ecommerce.website.entities.User;
 
-@Repository
+// @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
+    User findFirstByEmail(String email);
 }
