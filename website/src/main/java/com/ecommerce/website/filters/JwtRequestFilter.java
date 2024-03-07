@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ecommerce.website.jwtservice.UserDetailsServiceImpl;
+import com.ecommerce.website.service.jwt.UserDetailsServiceImpl;
 import com.ecommerce.website.utils.JwtUtil;
 
 import jakarta.servlet.FilterChain;

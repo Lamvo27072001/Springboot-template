@@ -1,4 +1,4 @@
-package com.ecommerce.website.jwtservice;
+package com.ecommerce.website.service.jwt;
 
 import java.util.ArrayList;
 

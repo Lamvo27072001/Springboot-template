@@ -1,5 +1,6 @@
 package com.ecommerce.website.entities;
 
+import com.ecommerce.website.dto.UserDTO;
 import com.ecommerce.website.enums.UserRole;
 
 import jakarta.persistence.Entity;
@@ -21,5 +22,9 @@ public class User {
     private String password;
     private UserRole userRole;
     private byte[] img;
+
+    public UserDTO mapUsertoUserDTO() {
+        return new UserDTO(id, name, email, userRole);
+    }
 
 }
