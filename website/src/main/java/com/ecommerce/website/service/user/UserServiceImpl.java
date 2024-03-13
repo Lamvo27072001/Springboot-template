@@ -20,12 +20,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(SignupDTO signupDTO) {
+        // Add user thorugh Class User
         User user = new User();
         user.setName(signupDTO.getName());
         user.setEmail(signupDTO.getEmail());
         user.setUserRole(UserRole.USER);
         user.setPassword(new BCryptPasswordEncoder().encode(signupDTO.getPassword()));
-        userRepository.save(user);
-        return user.mapUsertoUserDTO();
+        User creatUser = userRepository.save(user);
+
+        // UserDTO is a object that mapping from User class, because there are some
+        // field u dont want to response, so use UserDTO instead of User class
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(creatUser.getId());
+        userDTO.setEmail(creatUser.getEmail());
+        userDTO.setName(creatUser.getName());
+        userDTO.setUserRole(creatUser.getUserRole());
+        return userDTO;
+    }
+
+    @Override
+    public boolean hashUserWithEmail(String email) {
+
+        return userRepository.findFirstByEmail(email) != null;
     }
 }

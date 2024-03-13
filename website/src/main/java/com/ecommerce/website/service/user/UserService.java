@@ -7,4 +7,6 @@ public interface UserService {
 
     UserDTO createUser(SignupDTO signupDTO);
 
+    boolean hashUserWithEmail(String email);
+
 }

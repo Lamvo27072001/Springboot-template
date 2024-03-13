@@ -7,4 +7,5 @@ import com.ecommerce.website.entities.User;
 // @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findFirstByEmail(String email);
+
 }

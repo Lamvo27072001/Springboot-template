@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,18 +34,29 @@ public class WebSecurityConfig {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
+                http.csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests((requests) -> requests
-                                                .requestMatchers("/authenticate", "/sign-up", "/api/**").permitAll()
+                                                .requestMatchers("/authenticate", "/sign-up", "/api/**", "/swagger-ui")
+                                                .permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(
                                                 httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                                                                 .sessionCreationPolicy(
                                                                                 SessionCreationPolicy.STATELESS))
-                                .addFilterBefore((Filter) authFilter, UsernamePasswordAuthenticationFilter.class);
+                                .addFilterBefore((Filter) authFilter,
+                                                UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }
+
+        // @Bean
+        // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
+        // Exception {
+        // http.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest()
+        // .permitAll())
+        // .csrf(AbstractHttpConfigurer::disable);
+        // return http.build();
+        // }
 
         @Bean
         public PasswordEncoder passwordEncoder() {
@@ -55,6 +67,7 @@ public class WebSecurityConfig {
         public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
                 return configuration.getAuthenticationManager();
         }
+
         // @Bean
         // public UserDetailsService userDetailsService() {
         // UserDetails user = User.builder()
