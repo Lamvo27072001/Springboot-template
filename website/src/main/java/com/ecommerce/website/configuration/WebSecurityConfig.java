@@ -68,15 +68,4 @@ public class WebSecurityConfig {
                 return configuration.getAuthenticationManager();
         }
 
-        // @Bean
-        // public UserDetailsService userDetailsService() {
-        // UserDetails user = User.builder()
-        // .username("user")
-        // .password("password")
-        // .roles("USER")
-        // .build();
-
-        // return new InMemoryUserDetailsManager(user);
-        // }
-
 }

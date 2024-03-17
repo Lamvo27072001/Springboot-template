@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.website.dto.ErrorResponse;
 import com.ecommerce.website.dto.SignupDTO;
 import com.ecommerce.website.dto.UserDTO;
 import com.ecommerce.website.repository.UserRepository;
@@ -24,13 +25,19 @@ public class SignupController {
     @PostMapping("/sign-up")
     public ResponseEntity<?> signupUser(@RequestBody SignupDTO signupDTO) {
         if (userService.hashUserWithEmail(signupDTO.getEmail())) {
-            return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
+            // Tạo một đối tượng chứa thông điệp và mã trạng thái HTTP
+            // ErrorResponse errorResponse = new ErrorResponse("User not created, please
+            // create again!",
+            // HttpStatus.BAD_REQUEST.value());
+
+            return new ResponseEntity<>(ErrorResponse.builder().message("User not created, please create again!")
+                    .statusCode(HttpStatus.BAD_REQUEST.value()).build(), HttpStatus.BAD_REQUEST);
         }
         UserDTO createUser = userService.createUser(signupDTO);
         if (createUser == null) {
             return new ResponseEntity<>("User not created, please create again!", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Created Successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(createUser, HttpStatus.CREATED);
 
     }
 }

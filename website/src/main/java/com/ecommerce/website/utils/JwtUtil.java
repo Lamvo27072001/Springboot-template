@@ -17,7 +17,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-    public static final String SECRET = "27072001170174101269";
+    public static final String SECRET = "6b574f22777862347c4f377940517d554d7729402f43784f585f263d71";
 
     // Extract userName from token
     public String extractUsername(String token) {
@@ -37,9 +37,8 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    // Extract all clamis for the JWT
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(getSignKey()).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
     // Check boolean if token is expired
@@ -63,11 +62,13 @@ public class JwtUtil {
     private String createToken(Map<String, Object> claims, String userName) {
         return Jwts.builder().setClaims(claims).setSubject(userName).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
-                .signWith(SignatureAlgorithm.HS256, getSignKey()).compact();
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
+
     }
 
     // Create singin key is required to sign in the JWT token
-    private Key getSignKey() {
+
+    private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
